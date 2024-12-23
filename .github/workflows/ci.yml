@@ -8,29 +8,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      # Проверка кода
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Установка Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      # Установка зависимостей
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Настройка базы данных SQLite
-      - name: Migrate database
+      - name: Set up the database (for SQLite, adjust for other DBs)
         run: python manage.py migrate
 
-      # Запуск тестов
       - name: Run tests
-        run: python manage.py test
+        run: python manage.py test --verbosity=2
